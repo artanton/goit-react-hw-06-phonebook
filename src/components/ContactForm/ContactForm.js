@@ -39,8 +39,9 @@ export const ContactForm = () => {
       );
     } else {
       dispatchContact(addContact(newContact));
-      actions.resetForm();
+      
     }
+    
   };
 
   return (
