@@ -39,9 +39,8 @@ export const ContactForm = () => {
       );
     } else {
       dispatchContact(addContact(newContact));
-      
+      actions.resetForm();
     }
-    
   };
 
   return (
@@ -51,10 +50,7 @@ export const ContactForm = () => {
         number: '',
       }}
       validationSchema={contactSchema}
-      onSubmit={(values, actions) => {
-        onAdd(values);
-        actions.resetForm();
-      }}
+      onSubmit={onAdd}
     >
       <FormStyled>
         <FieldGroup>
