@@ -1,13 +1,25 @@
+import { useSelector } from 'react-redux';
 import { ContactItem } from '../contactItem/ContactItem';
 import { PhoneNoList } from './ContactListStyled';
 
-export const ContactList = ({ contacts, onDelete }) => {
+
+
+export const ContactList = () => {
+  const storeContacts = useSelector (state=>state.cont.contacts);
+  const searchedContact = useSelector (state=>state.filt.filter)
+
+  const actualContacts = storeContacts.filter(contact => {
+    const fitContact = contact.name
+      .toLowerCase()
+      .includes(searchedContact.toLowerCase());
+    return fitContact;
+  });
   return (
     <PhoneNoList>
-      {contacts.map(contact => {
+      {actualContacts.map(contact => {
         return (
           <li key={contact.id}>
-            <ContactItem contact={contact} onDelete={onDelete} />
+            <ContactItem contact={contact} />
           </li>
         );
       })}

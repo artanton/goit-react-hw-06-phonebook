@@ -1,9 +1,13 @@
+import { useDispatch } from 'react-redux';
 import { DeleteButton, PhoneNoItem } from './ContactItemStyled';
+import { deleteContact } from '../../redux/ContactsSlice';
 
-export const ContactItem = ({ contact, onDelete }) => {
+export const ContactItem = ({ contact }) => {
   const {name, number}= contact;
   const phoneNumber = formatPhoneNumber(contact);
-  
+  const dispatch = useDispatch();
+
+
   function formatPhoneNumber() {
     const num = number.toString();
   
@@ -18,7 +22,7 @@ export const ContactItem = ({ contact, onDelete }) => {
       '-' +
       num.slice(10);
     const formattedNumber = formattedNo;
-  
+    
     return formattedNumber;
   }
   return (
@@ -26,9 +30,7 @@ export const ContactItem = ({ contact, onDelete }) => {
       <p>
         {name}: {phoneNumber}
       </p>
-      <DeleteButton onClick={() => onDelete(contact.id)}>Delete</DeleteButton>
+    <DeleteButton onClick={() =>dispatch(deleteContact(contact)) }>Delete</DeleteButton> 
     </PhoneNoItem>
   );
 };
-
-
