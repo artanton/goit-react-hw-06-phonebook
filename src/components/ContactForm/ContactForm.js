@@ -7,8 +7,9 @@ import {
   FieldStyled,
   FormStyled,
 } from './ContactFormStyled';
-import { useDispatch} from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { addContact } from '../../redux/ContactsSlice';
+import Notiflix from 'notiflix';
 
 const contactSchema = Yup.object().shape({
   name: Yup.string()
@@ -25,8 +26,22 @@ const contactSchema = Yup.object().shape({
 
 export const ContactForm = () => {
   const dispatchContact = useDispatch();
+  const contacts = useSelector(state => state.cont.contacts);
 
-  const onAdd = newContact => dispatchContact(addContact(newContact));
+  const onAdd = (newContact, actions) => {
+    const contactExist = contacts.some(
+      contact => contact.name === newContact.name
+    );
+
+    if (contactExist) {
+      Notiflix.Notify.failure(
+        ` ${newContact.name} is already in the phonebook`
+      );
+    } else {
+      dispatchContact(addContact(newContact));
+      actions.resetForm();
+    }
+  };
 
   return (
     <Formik
